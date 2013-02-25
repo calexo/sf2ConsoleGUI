@@ -1,15 +1,19 @@
 #!/bin/sh
 
+# sf2ConsoleGUI
+# By Calexo http://www.calexo.com
+# Basic interface for Symfony2 app console
+# sf2ConsoleGUI is a bash script to help managing Symfony2 projects.
+# GitHub : https://github.com/calexo/sf2ConsoleGUI
+
 ## CONFIG ##
-console_path="app/console"
+console_path="php app/console"
 app_path="/var/www/html/xocellar"
 ## END CONFIG ##
 
 cp=$console_path
 
 cd $app_path
-
-# echo $console_path
 
 usage(){
         echo
@@ -19,7 +23,8 @@ usage(){
         echo "3) generate:doctrine:entity"
         echo "4) generate:doctrine:entities"
         echo "5) doctrine:schema:update"
-        echo "6) less"
+        echo "--- User External Commands ---"
+        echo "A) less"
 }
 
 schemaupdate() {
@@ -81,7 +86,7 @@ while [ -n "$r" ]; do
                 5)
                         schemaupdate
                         ;;
-                6)
+                A|a)
                         cd web/css
                         # TODO - params
                         cmdless="lessc -x xocellar.less > xocellar.css"
