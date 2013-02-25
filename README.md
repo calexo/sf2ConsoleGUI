@@ -10,9 +10,15 @@ Install
 -------
 * Download console.sh
 * Add it in a directory part of your PATH
+
 	i.e. in ~/bin
 	You can permanently add ~/bin in your PATH by adding this line in .bashrc :
-		export PATH=$PATH:~/bin
+	export PATH=$PATH:~/bin
+* Edit console.sh
+
+	console_path : Path to Symfony2's app/console
+	app_path : Path to your Symfony2's web app
+
 
 Usage
 -----

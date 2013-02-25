@@ -33,14 +33,36 @@ schemaupdate() {
 }
 
 doctrineentities() {
-        
+        cd src
+        i=0
+        find . -name "*Bundle" | sed 's/[\.]//g' | while read dir
+        do
+                let i++
+                echo "$i) $dir"
+        done
+        #find . -name "*Bundle" | sed 's/\/Bundle\///' | sed 's/[\/\.]//g'
+        read -p "Bundle number : " bundlenum
+        bundlepath=`find . -name "*Bundle" | sed 's/[\.]//g' | sed -n "${bundlenum}p"`
+        bundle=`find . -name "*Bundle" | sed 's/\/Bundle\///' | sed 's/[\/\.]//g' | sed -n "${bundlenum}p"`
+        #echo "Bundle $bundle"
+        cd "."$bundlepath/Entity
+        ls *.php | grep -v Repository | sed 's/.php//'
+        cd - > /dev/null
+        read -p "Entity (enter for all the Bundle) : " entity
+        if [ -n "$entity" ]; then
+                target="$bundle:$entity"
+        else
+                target=$bundle
+        fi
+        cd ..
+        $cp generate:doctrine:entities $target
 }
 
 
 r="init"
 while [ -n "$r" ]; do
         usage
-        read -p "Action : " r
+        read -p "Action (enter=quit): " r
         case $r in
                 1)
                         sudo rm -Rf ${app_path}/app/cache/
@@ -61,10 +83,12 @@ while [ -n "$r" ]; do
                         ;;
                 6)
                         cd web/css
+                        # TODO - params
                         cmdless="lessc -x xocellar.less > xocellar.css"
                         echo $cmdless ...
                         $cmdless
                         ;;
         esac
+        sleep 1
 done
 
